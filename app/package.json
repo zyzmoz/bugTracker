@@ -1,0 +1,25 @@
+{
+  "name": "bugTracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Daniel Cunha",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel -p 8080 index.html",
+    "build": "parcel build index.html --public-url ./"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "foundation-sites": "^6.6.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-foundation": "^0.9.6",
+    "react-router-dom": "^5.1.2"
+  }
+}
