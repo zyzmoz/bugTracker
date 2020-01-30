@@ -21,12 +21,12 @@ userRouter.post('/', async (req, res, next) => {
 
   const { id } = data;
   if (id) {    
-    const op = await knexConn('users').where({ id }).update({...data, updated_at: knexConn.fn.now()}).catch(err => {
+    await knexConn('users').where({ id }).update({...data, updated_at: knexConn.fn.now()}).catch(err => {
       res.json({ error: err });
       next();
     });
   } else {
-    const op = await knexConn('users').insert(data).catch(err => {
+    await knexConn('users').insert(data).catch(err => {
       res.json({ error: err });
       next();
     });
