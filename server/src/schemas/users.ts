@@ -12,6 +12,7 @@ const createUsers = async (knexConn : knex) => {
     table.string('username');
     table.string('password');
     table.string('email');
+    table.boolean('deleted').defaultTo(false);
   }).catch(err => console.log('Error:', err));  
 }
 
