@@ -24,8 +24,7 @@ const Layout = () => {
         <div style={styles.sideMenu}>
           <Menu />
         </div>
-        <div style={styles.mainView}>
-          Hello Suckers!
+        <div style={styles.mainView}>          
           <Switch>
             {createRoutes().map((route, i) => 
               <Route key={i} exact path={route.path} component={route.component} />

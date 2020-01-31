@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import { resolve } from 'path';
 import { config } from 'dotenv';
 import knex from 'knex';
@@ -21,6 +22,7 @@ createUsers(knexConn);
 
 const app = express();
 app.use(bodyParser());
+app.use(cors());
 
 app.use('/users', createUserRouter(knexConn))
 

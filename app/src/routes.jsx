@@ -3,7 +3,7 @@ import Helpdesk from './views/Helpdesk';
 import  Development from './views/Development';
 import Users from './views/Users';
 import Customers from './views/Customers';
-import Projects from './views/Dashboard';
+import Projects from './views/Projects';
 
 
 const routes = [

@@ -16,10 +16,16 @@
     "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
+    "@primer/octicons-react": "^9.4.0",
+    "axios": "^0.19.2",
     "foundation-sites": "^6.6.1",
     "react": "^16.12.0",
+    "react-animated-css": "^1.2.1",
     "react-dom": "^16.12.0",
     "react-foundation": "^0.9.6",
-    "react-router-dom": "^5.1.2"
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   }
 }
