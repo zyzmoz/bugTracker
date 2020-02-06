@@ -1,20 +1,22 @@
 import React, {useState} from 'react';
 import { Accordion, AccordionItem, AccordionContent, AccordionTitle, Menu as FMenu, MenuItem, MenuText } from 'react-foundation';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import routes from '../../routes';
 
 const RenderMenuItem = (route) => {
-  const { subRoutes } = route;
+  const { subRoutes, pathname } = route;  
   const [active, setActive] = useState(false);  
   if (subRoutes && subRoutes.length > 0) {
     return (
       <MenuItem key={route.i}  >
         <Accordion>
-          <AccordionItem isActive={active}>
+          <AccordionItem isActive={active} >
             <AccordionTitle onClick={() => setActive(!active)} style={{fontSize: '16px'}}>{route.title}</AccordionTitle>
-            <AccordionContent style={{display: active?'block': 'none'}}>
+            <AccordionContent style={{display: active?'block': 'none', padding: '8px'}}>
               {subRoutes.map((subRoute, i) =>
-                <Link key={i} to={subRoute.path}>{subRoute.title}</Link>
+                <Link
+                  style={pathname == subRoute.path? {backgroundColor: "#d6d6d6"}: {}}    
+                  key={i} to={subRoute.path}>{subRoute.title}</Link>
               )}
             </AccordionContent>
           </AccordionItem>
@@ -24,7 +26,7 @@ const RenderMenuItem = (route) => {
 
   } else {
     return (
-      <MenuItem key={route.i}>
+      <MenuItem key={route.i} style={pathname == route.path? {backgroundColor: "#d6d6d6"}: {}}>
         <Link to={route.path}>{route.title}</Link>
       </MenuItem>
     )
@@ -32,7 +34,9 @@ const RenderMenuItem = (route) => {
 
 }
 
-const Menu = () => {
+const Menu = (props) => {
+  const { pathname } = props.location;
+
   return (
     <FMenu isVertical>
       <MenuText>
@@ -40,7 +44,7 @@ const Menu = () => {
       </MenuText>
 
       {
-        routes.map((route, i) => RenderMenuItem({...route, i}))
+        routes.map((route, i) => RenderMenuItem({...route, i, pathname}))
       }
 
       {/* <MenuItem >
@@ -77,4 +81,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default withRouter(Menu);

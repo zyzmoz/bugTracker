@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Callout, Sizes, Colors } from 'react-foundation';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 const UserSchema = Yup.object().shape({
@@ -14,61 +15,57 @@ const UserSchema = Yup.object().shape({
 });
 
 const UserForm = (props) => {
-  const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({})
   const { user, closeModal, saveUser, readOnly } = props;
 
-  useEffect(() => {
-    if (user) setFormData(user);
-  }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  }
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (values) => {       
     setErrors({});
-    const { message, path, errors } = await UserSchema.validate(formData).catch(err => err);
+    const { message, path, errors } = await UserSchema.validate(values).catch(err => err);
 
     if (errors) {
-      setErrors({[path]: message});     
+      setErrors({ [path]: message });
 
     } else {
-      await saveUser(formData);
+      await saveUser(values);
       closeModal();
-    } 
-
+    }
   }
 
   return (
     <Callout style={styles.callout} size={Sizes.LARGE}>
       <h3>{!user ? 'Cadastro de Técnicos' : user.name}</h3>
-      <div style={styles.form}>
-        <div style={styles.formItem}>
-          <label >Nome</label>
-          <input disabled={readOnly} name="name" value={user && formData.name} onChange={e => handleChange(e)} type="text" />          
-        </div>
-        <div style={styles.formItem}>
-          <label >Usuário</label>
-          <input disabled={readOnly} name="username" value={user && formData.username} onChange={e => handleChange(e)} type="text" />
-          {errors['username'] && <b style={styles.error}>{errors['username']}</b>}
-        </div>
-        <div style={styles.formItem}>
-          <label >Email</label>
-          <input disabled={readOnly} name="email" value={user && formData.email} onChange={e => handleChange(e)} type="text" />
-        </div>
-        <div style={styles.formItem}>
-          <label >Senha</label>
-          <input disabled={readOnly} name="password" value={user && formData.password} onChange={e => handleChange(e)} type="password" />
-          {errors['password'] && <b style={styles.error}>{errors['password']}</b>}
-        </div>
-      </div>
+      <Formik 
+        initialValues={user}
+        onSubmit={(values) => handleSubmit(values)}
+      >
+        {({ values, isSubmitting, handleChange, handleSubmit }) => (
+          <form style={styles.form} onSubmit={handleSubmit}>
+          <div style={styles.formItem}>
+            <label >Nome</label>
+            <input disabled={readOnly} name="name" value={values.name} onChange={handleChange} type="text" />
+          </div>
+          <div style={styles.formItem}>
+            <label >Usuário</label>
+            <input disabled={readOnly} name="username" value={values.username} onChange={handleChange} type="text" />
+            {errors['username'] && <b style={styles.error}>{errors['username']}</b>}
+          </div>
+          <div style={styles.formItem}>
+            <label >Email</label>
+            <input disabled={readOnly} name="email" value={values.email} onChange={handleChange} type="text" />
+          </div>
+          <div style={styles.formItem}>
+            <label >Senha</label>
+            <input disabled={readOnly} name="password" value={values.password} onChange={handleChange} type="password" />
+            {errors['password'] && <b style={styles.error}>{errors['password']}</b>}
+          </div>
 
-      <div style={styles.actions}>
-        <Button disabled={readOnly} onClick={() => handleSubmit()}>Gravar</Button>
-        <Button color="alert" onClick={() => closeModal()}>{readOnly? 'Fechar': 'Cancelar'}</Button>
-      </div>
+          <div style={styles.actions}>
+            <Button disabled={readOnly || isSubmitting} type="submit" >Gravar</Button>
+            <Button color="alert" type="cancel" onClick={() => closeModal()}>{readOnly ? 'Fechar' : 'Cancelar'}</Button>
+          </div>
+        </form>)}
+      </Formik>
     </Callout>
   );
 };
@@ -88,6 +85,7 @@ const styles = {
   },
   actions: {
     display: 'flex',
+    width:'100%',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
