@@ -62,8 +62,7 @@ const Users = (props) => {
         <Button
           onClick={() => props.openModal(<UserForm closeModal={props.closeModal} saveUser={handleSaveUser} />)}
           color="success">Novo
-        </Button>
-        {/* Lista */}
+        </Button>        
         <table>
           <thead>
             <tr>

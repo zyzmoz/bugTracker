@@ -8,7 +8,7 @@ const SearchBar = ({placeholder, value, onChange, onClear}) => {
   return (
     <div style={styles.searchBar}>
       <input style={styles.input} type="text" value={value} onChange={e => onChange(e)} placeholder={placeholder} />
-      {value.length > 0 &&
+      {(value && value.length) > 0 &&
         <Animated animationIn="slideInLeft" isVisible={true}>
           <Button onClick={onClear} style={styles.button} color="alert">
             <Octicon icon={Trashcan} />

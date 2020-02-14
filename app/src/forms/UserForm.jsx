@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Callout, Sizes, Colors } from 'react-foundation';
+import React, { useState } from 'react';
+import { Button, Callout, Sizes } from 'react-foundation';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
