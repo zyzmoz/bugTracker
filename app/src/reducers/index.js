@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
-import userReducer from './userReducer';
-import modalReducer from './modalReducer';
+import user from './userReducer';
+import modal from './modalReducer';
+import project from './projectReducer';
 
 export default combineReducers({
   state: (state= {}) => state,
-  user: userReducer,
-  modal: modalReducer
+  user,
+  modal,
+  project
 });

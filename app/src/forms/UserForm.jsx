@@ -31,12 +31,12 @@ const UserForm = (props) => {
       closeModal();
     }
   }
-
+  
   return (
     <Callout style={styles.callout} size={Sizes.LARGE}>
       <h3>{!user ? 'Cadastro de Técnicos' : user.name}</h3>
       <Formik 
-        initialValues={user}
+        initialValues={user || {}}
         onSubmit={(values) => handleSubmit(values)}
       >
         {({ values, isSubmitting, handleChange, handleSubmit }) => (
