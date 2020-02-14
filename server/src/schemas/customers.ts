@@ -19,6 +19,7 @@ const createCustomers = async (knexConn : knex) => {
     table.string('website');
     table.string('govId');
     table.string('localId');
+    table.boolean('deleted').defaultTo(false);
   }).catch(err => console.log('Error:', err));
 }
 

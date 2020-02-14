@@ -4,10 +4,10 @@ import cors from 'cors';
 import { resolve } from 'path';
 import { config } from 'dotenv';
 import knex from 'knex';
-import createUsers from './schemas/users';
 import createUserRouter from './routes/users-route';
-import createCustomers from './schemas/customers';
 import createCustomerRouter from './routes/customers-route';
+import createProjectRouter from './routes/projects-route';
+
 
 config({ path: resolve(__dirname, '../.env') });
 
@@ -19,9 +19,6 @@ const knexConn = knex({
   useNullAsDefault: true
 });
 
-//Try to create database
-createUsers(knexConn);
-createCustomers(knexConn);
 
 const app = express();
 app.use(bodyParser());
@@ -29,6 +26,7 @@ app.use(cors());
 
 app.use('/users', createUserRouter(knexConn));
 app.use('/customers', createCustomerRouter(knexConn));
+app.use('/projects', createProjectRouter(knexConn));
 
 app.get('/', async (req, res) => {
   

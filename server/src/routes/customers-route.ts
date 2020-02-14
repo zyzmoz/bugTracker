@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import knex from 'knex';
+import createCustomersTable from '../schemas/customers';
 
 const customerRouter = Router();
 let knexConn: knex;
@@ -49,6 +50,7 @@ customerRouter.post('/', async (req, res, next) => {
 
 
 const createCustomerRouter = (knex) => {
+  createCustomersTable(knex);
   knexConn = knex;
   return customerRouter;
 }
