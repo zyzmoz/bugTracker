@@ -5,8 +5,6 @@ export const QUERY_PROJECT = 'QUERY_PROJECT';
 
 import axios from 'axios';
 
-
-
 export const getAllProjects = () => {
   return async (dispatch) => {
     let res = await axios.get('http://localhost:3000/projects');    
@@ -28,18 +26,18 @@ export const queryProject = (str) => {
 }
 
 
-export const saveProject = (userObj) => {
+export const saveProject = (projectObj) => {
   return async (dispatch) => {
-    let res = await axios.post('http://localhost:3000/projects',userObj);        
+    let res = await axios.post('http://localhost:3000/projects',projectObj);        
     dispatch({
       type: SAVE_PROJECT
     })
   }
 }
 
-export const deleteProject = (userId) => {
+export const deleteProject = (projectId) => {
   return async (dispatch) => {
-    let res = await axios.post('http://localhost:3000/projects', {id: userId, deleted: true});        
+    let res = await axios.post('http://localhost:3000/projects', {id: projectId, deleted: true});        
     dispatch({
       type: DELETE_PROJECT,
     });

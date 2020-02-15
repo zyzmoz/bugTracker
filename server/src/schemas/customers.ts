@@ -14,7 +14,7 @@ const createCustomers = async (knexConn : knex) => {
     table.string('address');
     table.string('city');
     table.string('state');
-    table.string('fone');
+    table.string('phone');
     table.string('contact');    
     table.string('website');
     table.string('govId');

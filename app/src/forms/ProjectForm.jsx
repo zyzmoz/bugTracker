@@ -7,19 +7,18 @@ const ProjectSchema = Yup.object().shape({
   id: Yup.number().nullable(),
   name: Yup.string().required('O campo nome é obrigatório!'),
   description: Yup.string().nullable(),
-  language: Yup.string(),
+  language: Yup.string().nullable(),
   lead: Yup.number()
 });
 
 const ProjectForm = (props) => {
   const { project, closeModal, saveProject, readOnly, users } = props;
   const [errors, setErrors] = useState({});
-  const [lead, setLead] = useState(0);
+  const [lead, setLead] = useState(project['lead'] || 0);
 
   const handleSubmit = async (values) => {
     delete values.leadName;
-    values = { ...values, lead };
-    console.log(values)
+    values = { ...values, lead };    
     setErrors({});
     const { message, path, errors } = await ProjectSchema.validate(values);
 
@@ -68,9 +67,9 @@ const ProjectForm = (props) => {
             </div>
             <div style={styles.formItem}>
               <label>Lead</label>
-              <select disabled={readOnly} name="lead"  value={values.lead} onChange={handleChange}>
+              <select disabled={readOnly} name="lead"  value={lead} onChange={e => setLead(e.target.value)}>
                 {users && users.map((user, i) =>
-                  <option onBlur={() => setLead(user.id)} key={i} value={user.id}>{user.name}</option>
+                  <option  key={i} value={user.id}>{user.name}</option>
                 )}
               </select>
             </div>
