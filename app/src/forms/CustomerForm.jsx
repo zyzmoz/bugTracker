@@ -40,91 +40,91 @@ const CustomerForm = ({ customer, closeModal, saveCustomer, readOnly }) => {
         initialValues={customer || {}}
         onSubmit={(values => handleSubmit(values))}
       >
-        {({values, isSubmitting, handleChange, handleSubmit}) => (
+        {({ values, isSubmitting, handleChange, handleSubmit }) => (
           <form style={styles.form} onSubmit={handleSubmit}>
             <div style={styles.formItem}>
               <label>Nome</label>
-              <input 
+              <input
                 disabled={readOnly}
                 name="name" value={values.name}
                 onChange={handleChange}
-                type="text"/>
+                type="text" />
               {errors['name'] && <b style={styles.error}>{errors['name']}</b>}
             </div>
 
             <div style={styles.formItem}>
               <label>Razão Social</label>
-              <input 
+              <input
                 disabled={readOnly}
                 name="business_name" value={values.business_name}
                 onChange={handleChange}
-                type="text"/>              
+                type="text" />
             </div>
 
             <div style={styles.formItem}>
               <label>Email</label>
-              <input 
+              <input
                 disabled={readOnly}
                 name="email" value={values.email}
                 onChange={handleChange}
-                type="text"/>
+                type="text" />
               {errors['email'] && <b style={styles.error}>{errors['email']}</b>}
             </div>
 
             <div style={styles.formItem}>
               <label>Endereço</label>
-              <input 
+              <input
                 disabled={readOnly}
                 name="address" value={values.address}
                 onChange={handleChange}
-                type="text"/>
+                type="text" />
             </div>
 
             <div style={styles.formItem}>
               <label>Cidade</label>
-              <input 
+              <input
                 disabled={readOnly}
                 name="city" value={values.city}
                 onChange={handleChange}
-                type="text"/>
+                type="text" />
             </div>
 
             <div style={styles.formItem}>
               <label>State</label>
-              <input 
+              <input
                 disabled={readOnly}
                 name="state" value={values.state}
                 onChange={handleChange}
-                type="text"/>
+                type="text" />
             </div>
 
             <div style={styles.formItem}>
               <label>Telefone</label>
-              <input 
+              <input
                 disabled={readOnly}
                 name="phone" value={values.phone}
                 onChange={handleChange}
-                type="text"/>
+                type="text" />
               {errors['phone'] && <b style={styles.error}>{errors['phone']}</b>}
             </div>
 
             <div style={styles.formItem}>
               <label>Contato</label>
-              <input 
+              <input
                 disabled={readOnly}
                 name="contact" value={values.contact}
                 onChange={handleChange}
-                type="text"/>
+                type="text" />
               {errors['contact'] && <b style={styles.error}>{errors['contact']}</b>}
             </div>
 
             <div style={styles.formItem}>
               <label>Site</label>
-              <input 
+              <input
                 disabled={readOnly}
                 name="website" value={values.website}
                 onChange={handleChange}
-                type="text"/>
+                type="text" />
             </div>
 
             <div style={styles.actions}>
