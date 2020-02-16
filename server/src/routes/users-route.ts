@@ -6,11 +6,8 @@ const userRouter = Router();
 let knexConn: knex;
 
 userRouter.get('/', async (req, res) => {
-  const filter = req.query;
-  let rows = await knexConn.table('users').whereNot({ deleted: true }).select('*');
-  if (name) {
-    rows = rows.filter(row => row.name.includes(name) ? row : null);
-  }
+  const filter = req.query;  
+  let rows = await knexConn.table('users').whereNot({ deleted: true }).select('*');  
 
   if (filter) {
     Object.keys(filter).map(key => {
