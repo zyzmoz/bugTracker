@@ -7,6 +7,7 @@ import knex from 'knex';
 import createUserRouter from './routes/users-route';
 import createCustomerRouter from './routes/customers-route';
 import createProjectRouter from './routes/projects-route';
+import createIssueRouter from './routes/issues-route';
 
 
 config({ path: resolve(__dirname, '../.env') });
@@ -27,6 +28,7 @@ app.use(cors());
 app.use('/users', createUserRouter(knexConn));
 app.use('/customers', createCustomerRouter(knexConn));
 app.use('/projects', createProjectRouter(knexConn));
+app.use('/issues', createIssueRouter(knexConn));
 
 app.get('/', async (req, res) => {
   

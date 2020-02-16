@@ -41,31 +41,50 @@ issueRouter.get('/:id', async (req, res) => {
 });
 
 //save new issue
+issueRouter.post('/', async (req, res, next) => {
+  let data = req.body;
+  if (!data) res.json({ error: 'No data to insert or update' });
 
-// customerRouter.post('/', async (req, res, next) => {
-//   let data = req.body;
-//   if (!data) res.json({ error: 'No data to insert or update' });
+  const { id } = data;
+  if (id) {
+    await knexConn('issues').where({ id }).update({ ...data, updated_at: knexConn.fn.now() }).catch(err => {
+      res.json({ error: err });
+      next();
+    });
+  } else {
+    await knexConn('issues').insert(data).catch(err => {
+      res.json({ error: err });
+      next();
+    });
+  }
+  res.json({ status: true });
+});
 
-//   const { id } = data;
-//   if (id) {
-//     await knexConn('customers').where({ id }).update({ ...data, updated_at: knexConn.fn.now() }).catch(err => {
-//       res.json({ error: err });
-//       next();
-//     });
-//   } else {
-//     await knexConn('customers').insert(data).catch(err => {
-//       res.json({ error: err });
-//       next();
-//     });
-//   }
-//   res.json({ status: true });
-// });
+//save new issue details
+issueRouter.post('/details', async (req, res, next) => {
+  let data = req.body;
+  if (!data) res.json({ error: 'No data to insert or update' });
+
+  const { id } = data;
+  if (id) {
+    await knexConn('issue_details').where({ id }).update({ ...data, updated_at: knexConn.fn.now() }).catch(err => {
+      res.json({ error: err });
+      next();
+    });
+  } else {
+    await knexConn('issue_details').insert(data).catch(err => {
+      res.json({ error: err });
+      next();
+    });
+  }
+  res.json({ status: true });
+});
 
 
-const createIssuesRouter = (knex) => {
+const createIssueRouter = (knex) => {
   createIssues(knex);
   knexConn = knex;
   return issueRouter;
 }
 
-export default createIssuesRouter;
+export default createIssueRouter;
