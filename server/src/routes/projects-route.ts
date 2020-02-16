@@ -6,26 +6,23 @@ const projectRouter = Router();
 let knexConn: knex;
 
 projectRouter.get('/', async (req, res) => {
-  const { name } = req.query;
+  const filter = req.query;
   let rows = await knexConn.table('projects')
     .whereNot({ 'projects.deleted': true })
     .select(['projects.*', 'users.name as leadName'])
     .leftJoin('users', 'users.id', 'projects.lead');
-  if (name) {
-    rows = rows.filter(row => row.name.includes(name) ? row : null);
+
+  if (filter) {
+    Object.keys(filter).map(key => {
+      rows = rows.filter(row => {
+        if (isNaN(filter[key])) {
+          return row[key].includes(filter[key]) ? row : null;
+        } else {
+          return row[key] == filter[key] ? row : null;
+        }
+      });
+    });
   }
-  res.json(rows);
-});
-
-projectRouter.get('/query', async (req, res) => {
-  const { name } = req.query;
-  console.log(name)
-  let rows = await knexConn.table('projects')
-    .whereNot({ 'projects.deleted': true })
-    .select(['projects.*', 'users.name as leadName'])
-    .leftJoin('users', 'users.id', 'projects.lead');
-
-
   res.json(rows);
 });
 
@@ -36,7 +33,7 @@ projectRouter.get('/:id', async (req, res) => {
     .whereNot({ 'projects.deleted': true })
     .select(['projects.*', 'users.name as leadName'])
     .leftJoin('users', 'users.id', 'projects.lead');
-    
+
   res.json(rows);
 });
 

@@ -5,20 +5,20 @@ import createCustomersTable from '../schemas/customers';
 const customerRouter = Router();
 let knexConn: knex;
 
-customerRouter.get('/', async (req, res) => {  
-  const { name } = req.query;
+customerRouter.get('/', async (req, res) => {    
+  const filter = req.query;
   let rows = await knexConn.table('customers').whereNot({deleted: true}).select('*');  
-  if (name) {
-    rows = rows.filter(row => row.name.includes(name)? row: null);
-  }
-  res.json(rows);
-});
-
-customerRouter.get('/query', async (req, res) => {  
-  const { name } = req.query;
-  console.log(name)
-  let rows = await knexConn.table('customers').whereNot({deleted: true}).select('*');
-  
+  if (filter) {
+    Object.keys(filter).map(key => {
+      rows = rows.filter(row => {        
+        if (isNaN(filter[key])){
+          return row[key].includes(filter[key]) ? row : null;
+        } else {
+          return row[key] == filter[key] ? row : null;
+        }
+      });
+    });
+  }  
   res.json(rows);
 });
 
