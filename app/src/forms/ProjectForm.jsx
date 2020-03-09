@@ -13,8 +13,9 @@ const ProjectSchema = Yup.object().shape({
 
 const ProjectForm = (props) => {
   const { project, closeModal, saveProject, readOnly, users } = props;
+  
   const [errors, setErrors] = useState({});
-  const [lead, setLead] = useState(project ? project.lead : users[0].id );
+  const [lead, setLead] = useState(project  ? project.lead : users[0].id );
 
   const handleSubmit = async (values) => {
     delete values.leadName;
