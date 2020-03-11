@@ -36,7 +36,7 @@ const IssueForm = (props) => {
   const [project, setProject] = useState(issue ? issue.project_id : projects[0].id);
   const [customer, setCustomer] = useState(issue ? issue.customer_id : customers[0].id);
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values, setSubmitting) => {
     const issue = { ...values, user_id: user, project_id: project, customer_id: customer };
     console.log(issue)
     setErrors({});
@@ -46,8 +46,9 @@ const IssueForm = (props) => {
       })
       .catch(error => {
         console.log(error)
-        const { path, message } = error
-        setErrors({ [path]: message })
+        const { path, message } = error;        
+        setErrors({ [path]: message });
+        setSubmitting(false);
       });   
 
   }
@@ -58,7 +59,7 @@ const IssueForm = (props) => {
       <h3>{!issue ? 'Novo Atendimento' : `Atendimento #${issue.id}`}</h3>
       <Formik
         initialValues={issue || {}}
-        onSubmit={(values) => handleSubmit(values)}
+        onSubmit={(values, {setSubmitting}) => handleSubmit(values, setSubmitting)}
       >
         {({ values, isSubmitting, handleChange, handleSubmit, handleBlur }) => (
           <form style={styles.form} onSubmit={handleSubmit}>
