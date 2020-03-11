@@ -23,17 +23,24 @@ const status = [
 
 const IssueSchema = Yup.object().shape({
   id: Yup.number().nullable(),
-  description: Yup.string().required('O campo nome é obrigatório!'),
+  description: Yup.string().required('O campo descrição é obrigatório!'),
   customer_id: Yup.number().required('O campo cliente é obrigatório'),
   user_id: Yup.number().required('O campo usuário é obrigatório'),
-  project_id: Yup.number().required('O campo projeto é obrigatório'),  
+  project_id: Yup.number().required('O campo projeto é obrigatório'),
 });
 
 const IssueForm = (props) => {
   const { issue, closeModal, readOnly, users, projects, customers } = props;
   const [errors, setErrors] = useState({});
+  const [user, setUser] = useState();
+  const [project, setProject] = useState();
+  const [customer, setCustomer] = useState();
 
-  
+  const handleSubmit = (values) => {
+    const issue = { ...values, user_id: user, project_id: project, customer_id: customer };
+    console.log(issue);
+  }
+
 
   return (
     <Callout style={styles.callout} size={Sizes.LARGE}>
@@ -53,34 +60,33 @@ const IssueForm = (props) => {
                 onChange={handleChange}
                 type="text" />
               {errors['description'] && <b style={styles.error}>{errors['description']}</b>}
-            </div>  
+            </div>
             <div style={styles.formItemBlock}>
               <label>Cliente</label>
-              {/* value={lead} onChange={e => setLead(e.target.value)} */}
-              <select disabled={readOnly} name="customer_id">
+              <select disabled={readOnly} name="customer_id" value={customer} onChange={e => setCustomer(e.target.value)}>
                 {customers && customers.map((customer, i) =>
-                  <option  key={i} value={customer.id}>{customer.name}</option>
+                  <option key={i} value={customer.id}>{customer.name}</option>
                 )}
               </select>
-            </div>  
+            </div>
             <div style={styles.formItem}>
               <label>Técnico</label>
-              {/* value={lead} onChange={e => setLead(e.target.value)} */}
-              <select disabled={readOnly} name="user_id"  >
+
+              <select disabled={readOnly} name="user_id" value={user} onChange={e => setUser(e.target.value)}>
                 {users && users.map((user, i) =>
-                  <option  key={i} value={user.id}>{user.name}</option>
+                  <option key={i} value={user.id}>{user.name}</option>
                 )}
               </select>
-            </div>      
+            </div>
             <div style={styles.formItem}>
               <label>Projeto</label>
-              {/* value={lead} onChange={e => setLead(e.target.value)} */}
-              <select disabled={readOnly} name="project_id">
+
+              <select disabled={readOnly} name="project_id" value={project} onChange={e => setProject(e.target.value)}>
                 {projects && projects.map((project, i) =>
-                  <option  key={i} value={project.id}>{project.name}</option>
+                  <option key={i} value={project.id}>{project.name}</option>
                 )}
               </select>
-            </div>       
+            </div>
             <div style={styles.actions}>
               <Button disabled={readOnly || isSubmitting} type="submit" >Gravar</Button>
               <Button color="alert" type="cancel" onClick={() => closeModal()}>{readOnly ? 'Fechar' : 'Cancelar'}</Button>
@@ -105,7 +111,7 @@ const styles = {
     flex: '0 49%',
 
   },
-  formItemBlock:{
+  formItemBlock: {
     disply: 'flex',
     width: '100%'
   },
