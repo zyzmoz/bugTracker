@@ -26,7 +26,7 @@ const createIssueDetailsTable = async(knexConn: knex) => {
     table.timestamp('created_at').defaultTo(knexConn.fn.now());
     table.timestamp('updated_at').defaultTo(knexConn.fn.now());
     table.integer('issue_id').notNullable();
-    table.integer('user_id').notNullable();
+    table.integer('user_id').notNullable();    
     table.string('description');
   });
 }
