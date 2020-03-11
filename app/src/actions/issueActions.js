@@ -17,15 +17,15 @@ export const getAllIssues = () => {
   }
 }
 
-// export const queryUser = (str) => {
-//   return async (dispatch) => {
-//     let res = await axios.get(`http://localhost:3000/issues?name=${str}`);    
-//     dispatch({
-//       type: QUERY_USER,
-//       payload: { list: res.data }
-//     });
-//   }
-// }
+export const queryIssue = (str) => {
+  return async (dispatch) => {
+    let res = await axios.get(`http://localhost:3000/issues?customer=${str}`);    
+    dispatch({
+      type: QUERY_ISSUE,
+      payload: { list: res.data }
+    });
+  }
+}
 
 
 export const saveIssue = (issueObj) => {

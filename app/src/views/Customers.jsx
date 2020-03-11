@@ -39,7 +39,12 @@ const Customers = (props) => {
 
   const handleCustomerSearch = async (str) => {
     setSearchText(str);
-    await queryCustomer(str);
+    if (str == '') {
+      await props.getAllCustomers();
+    } else {
+      await queryCustomer(str);
+    }
+
   }
 
   const handleSaveCustomer = async (obj) => {

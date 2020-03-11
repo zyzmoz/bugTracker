@@ -35,7 +35,12 @@ const Projects = (props) => {
 
   const handleProjectSearch = async (str) => {
     setSearchText(str);
-    await props.queryProject(str)
+    if (str == '') {
+      await props.getAllProjects();
+    } else {
+      await props.queryProject(str);
+    }
+
   }
 
   const handleSaveProject = async (project) => {

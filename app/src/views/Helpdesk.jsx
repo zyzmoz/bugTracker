@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Octicons, { Trashcan, Pencil, Search } from '@primer/octicons-react';
 import { connect } from 'react-redux';
 import SearchBar from '../components/SearchBar/SearchBar';
@@ -8,21 +8,18 @@ import { openModal, closeModal } from '../actions/modalActions';
 import { getAllProjects } from '../actions/projectActions';
 import { getAllUsers } from '../actions/userActions';
 import { getAllCustomers } from '../actions/customerActions';
-import { getAllIssues, saveIssue } from '../actions/issueActions';
+import { getAllIssues, saveIssue, deleteIssue, queryIssue } from '../actions/issueActions';
 
 const status = [
   {
-    id: 1,
     description: 'Aberto',
     color: '#BFFCC6'
   },
   {
-    id: 2,
     description: 'Em Andamento',
     color: '#FFF5BA'
   },
   {
-    id: 3,
     description: 'Fechado',
     color: '#6EB5FF'
   },
@@ -43,11 +40,15 @@ const actions = {
   getAllUsers,
   getAllCustomers,
   getAllIssues,
-  saveIssue
+  saveIssue,
+  deleteIssue,
+  queryIssue
 }
 
 const Helpdesk = (props) => {
+  const [searchText, setSearchText] = useState('');
   const { issues } = props;
+
   useEffect(() => {
     (async () => {
       await props.getAllProjects();
@@ -62,14 +63,31 @@ const Helpdesk = (props) => {
     await props.getAllIssues();
   }
 
+  const handleDeleteIssue = async (issueId) => {
+    const res = confirm('Deseja realmente excluir esse registro?');
+    if (res) {
+      await props.deleteIssue(issueId);
+      await props.getAllIssues();
+    }
+  }
+
+  const handleIssueSearch = async (str) => {
+    setSearchText(str);
+    if (str == '') {
+      await props.getAllIssues();
+    } else {
+      await props.queryIssue(str);
+    }
+  }
+
   return (
     <div>
       <h5>Suporte</h5>
       <SearchBar
         placeholder="Pesquisar"
-      // value={searchText}
-      // onChange={e => handleProjectSearch(e.target.value)}
-      // onClear={() => handleProjectSearch('')}
+        value={searchText}
+        onChange={e => handleIssueSearch(e.target.value)}
+        onClear={() => handleIssueSearch('')}
       />
       <Button
         onClick={() => props.openModal(<IssueForm
@@ -96,11 +114,11 @@ const Helpdesk = (props) => {
         </thead>
         <tbody>
           {issues && issues.map((issue, i) =>
-            <tr key={issue.id}>
+            <tr key={issue.id} style={{ background: issue.status ? status[issue.status].color : status[0].color }}>
               <th>{issue.id}</th>
               <th>{issue.customer}</th>
               <th>{issue.created_at}</th>
-              <th>{"Aberto"}</th>
+              <th>{issue.status ? status[issue.status].description : 'Aberto'}</th>
               <th style={styles.actions}>
                 <Button
                   onClick={() => props.openModal(<IssueForm
@@ -130,7 +148,7 @@ const Helpdesk = (props) => {
                   <Octicons icon={Pencil} />
                 </Button>
                 <Button
-                  // onClick={() => handleDeleteProject(project.id)}
+                  onClick={() => handleDeleteIssue(issue.id)}
                   style={styles.button} color="alert">
                   <Octicons icon={Trashcan} />
                 </Button>

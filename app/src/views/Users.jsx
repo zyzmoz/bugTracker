@@ -44,7 +44,12 @@ const Users = (props) => {
 
   const handleUserSearch = async (str) => {
     setSearchText(str)
-    await props.queryUser(str);
+    if (str == '') {
+      await props.getAllUsers();
+    } else {
+      await props.queryUser(str);
+    }
+
   }
 
 
@@ -62,7 +67,7 @@ const Users = (props) => {
         <Button
           onClick={() => props.openModal(<UserForm closeModal={props.closeModal} saveUser={handleSaveUser} />)}
           color="success">Novo
-        </Button>        
+        </Button>
         <table>
           <thead>
             <tr>

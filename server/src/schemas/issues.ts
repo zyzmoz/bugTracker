@@ -12,7 +12,8 @@ const createIssuesTable = async(knexConn : knex) =>{
     table.integer('customer_id').notNullable();
     table.integer('user_id').notNullable();
     table.integer('project_id').notNullable();
-    table.integer('status').defaultTo(0);    
+    table.integer('status').defaultTo(0);   
+    table.boolean('deleted').defaultTo(false);
   }).catch(err => console.log(err));
 }
 

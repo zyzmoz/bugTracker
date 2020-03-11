@@ -11,10 +11,13 @@ issueRouter.get('/', async (req, res) => {
   const filter = req.query;
   let rows = await knexConn.table('issues')    
     .whereNot({
-      status: 3
+      status: 3,
+      'issues.deleted': true
+
     })
     .select(['issues.*', 'customers.name as customer'])
-    .leftJoin('customers', 'customers.id', 'issues.customer_id');
+    .leftJoin('customers', 'customers.id', 'issues.customer_id')
+    .orderBy('customers.name', 'desc');
 
   if (filter) {
     Object.keys(filter).map(key => {
@@ -48,7 +51,7 @@ issueRouter.get('/:id', async (req, res) => {
 issueRouter.post('/', async (req, res, next) => {
   let data = req.body;
   if (!data) res.json({ error: 'No data to insert or update' });
-
+  console.log('update', data)
   const { id } = data;
   if (id) {
     await knexConn('issues').where({ id }).update({ ...data, updated_at: knexConn.fn.now() }).catch(err => {
