@@ -10,7 +10,9 @@ let knexConn: knex;
 issueRouter.get('/', async (req, res) => {
   const filter = req.query;
   let rows = await knexConn.table('issues')
-    .select('*');
+    // .whereNot({'issues.deleted': true})    
+    .select(['issues.*', 'customers.name as customer'])
+    .leftJoin('customers', 'customers.id', 'issues.customer_id');
 
   if (filter) {
     Object.keys(filter).map(key => {

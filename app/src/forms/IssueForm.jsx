@@ -3,23 +3,6 @@ import { Button, Callout, Sizes } from 'react-foundation';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-const status = [
-  {
-    id: 1,
-    description: 'Aberto',
-    color: '#BFFCC6'
-  },
-  {
-    id: 2,
-    description: 'Em Andamento',
-    color: '#FFF5BA'
-  },
-  {
-    id: 3,
-    description: 'Fechado',
-    color: '#6EB5FF'
-  },
-]
 
 const IssueSchema = Yup.object().shape({
   id: Yup.number().nullable(),
@@ -37,11 +20,12 @@ const IssueForm = (props) => {
   const [customer, setCustomer] = useState(issue ? issue.customer_id : customers[0].id);
 
   const handleSubmit = (values, setSubmitting) => {
-    const issue = { ...values, user_id: user, project_id: project, customer_id: customer };
+    const { id, description } = values;
+    const issue = { id, description, user_id: user, project_id: project, customer_id: customer };
     console.log(issue)
     setErrors({});
     IssueSchema.validate(issue)
-      .then(async() => {
+      .then(async () => {
         await saveIssue(issue);
         closeModal();
       })
@@ -63,7 +47,7 @@ const IssueForm = (props) => {
         onSubmit={(values, { setSubmitting }) => handleSubmit(values, setSubmitting)}
       >
         {({ values, isSubmitting, handleChange, handleSubmit, handleBlur }) => (
-          <form style={styles.form} onSubmit={handleSubmit}>            
+          <form style={styles.form} onSubmit={handleSubmit}>
             <div style={styles.formItemBlock}>
               <label>Cliente</label>
               <select disabled={readOnly} name="customer_id" value={customer} onChange={e => setCustomer(e.target.value)}>
