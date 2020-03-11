@@ -46,10 +46,10 @@ const IssueForm = (props) => {
       })
       .catch(error => {
         console.log(error)
-        const { path, message } = error;        
+        const { path, message } = error;
         setErrors({ [path]: message });
         setSubmitting(false);
-      });   
+      });
 
   }
 
@@ -59,20 +59,10 @@ const IssueForm = (props) => {
       <h3>{!issue ? 'Novo Atendimento' : `Atendimento #${issue.id}`}</h3>
       <Formik
         initialValues={issue || {}}
-        onSubmit={(values, {setSubmitting}) => handleSubmit(values, setSubmitting)}
+        onSubmit={(values, { setSubmitting }) => handleSubmit(values, setSubmitting)}
       >
         {({ values, isSubmitting, handleChange, handleSubmit, handleBlur }) => (
-          <form style={styles.form} onSubmit={handleSubmit}>
-            <div style={styles.formItemBlock}>
-              <label>Descrição</label>
-              <input
-                disabled={readOnly}
-                name="description"
-                value={values.description}
-                onChange={handleChange}
-                type="text" />
-              {errors['description'] && <b style={styles.error}>{errors['description']}</b>}
-            </div>
+          <form style={styles.form} onSubmit={handleSubmit}>            
             <div style={styles.formItemBlock}>
               <label>Cliente</label>
               <select disabled={readOnly} name="customer_id" value={customer} onChange={e => setCustomer(e.target.value)}>
@@ -101,6 +91,19 @@ const IssueForm = (props) => {
                 )}
               </select>
               {errors['project_id'] && <b style={styles.error}>{errors['project_id']}</b>}
+            </div>
+
+            <div style={styles.formItemBlock}>
+              <label>Descrição</label>
+              <textarea
+                disabled={readOnly}
+                name="description"
+                value={values.description}
+                onChange={handleChange}
+                type="text"
+                rows="4" >
+              </textarea>
+              {errors['description'] && <b style={styles.error}>{errors['description']}</b>}
             </div>
             <div style={styles.actions}>
               <Button disabled={readOnly || isSubmitting} type="submit" >Gravar</Button>
