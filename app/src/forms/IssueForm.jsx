@@ -32,13 +32,24 @@ const IssueSchema = Yup.object().shape({
 const IssueForm = (props) => {
   const { issue, closeModal, readOnly, users, projects, customers } = props;
   const [errors, setErrors] = useState({});
-  const [user, setUser] = useState();
-  const [project, setProject] = useState();
-  const [customer, setCustomer] = useState();
+  const [user, setUser] = useState(issue ? issue.user_id : users[0].id);
+  const [project, setProject] = useState(issue ? issue.project_id : projects[0].id);
+  const [customer, setCustomer] = useState(issue ? issue.customer_id : customers[0].id);
 
   const handleSubmit = (values) => {
     const issue = { ...values, user_id: user, project_id: project, customer_id: customer };
-    console.log(issue);
+    console.log(issue)
+    setErrors({});
+    IssueSchema.validate(issue)
+      .then(() => {
+        closeModal();
+      })
+      .catch(error => {
+        console.log(error)
+        const { path, message } = error
+        setErrors({ [path]: message })
+      });   
+
   }
 
 
@@ -55,7 +66,7 @@ const IssueForm = (props) => {
               <label>Descrição</label>
               <input
                 disabled={readOnly}
-                name="name"
+                name="description"
                 value={values.description}
                 onChange={handleChange}
                 type="text" />
@@ -68,6 +79,7 @@ const IssueForm = (props) => {
                   <option key={i} value={customer.id}>{customer.name}</option>
                 )}
               </select>
+              {errors['customer_id'] && <b style={styles.error}>{errors['customer_id']}</b>}
             </div>
             <div style={styles.formItem}>
               <label>Técnico</label>
@@ -77,6 +89,7 @@ const IssueForm = (props) => {
                   <option key={i} value={user.id}>{user.name}</option>
                 )}
               </select>
+              {errors['user_id'] && <b style={styles.error}>{errors['user_id']}</b>}
             </div>
             <div style={styles.formItem}>
               <label>Projeto</label>
@@ -86,6 +99,7 @@ const IssueForm = (props) => {
                   <option key={i} value={project.id}>{project.name}</option>
                 )}
               </select>
+              {errors['project_id'] && <b style={styles.error}>{errors['project_id']}</b>}
             </div>
             <div style={styles.actions}>
               <Button disabled={readOnly || isSubmitting} type="submit" >Gravar</Button>
