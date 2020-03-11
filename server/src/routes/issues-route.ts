@@ -9,8 +9,10 @@ let knexConn: knex;
 //Return only issues header filtering
 issueRouter.get('/', async (req, res) => {
   const filter = req.query;
-  let rows = await knexConn.table('issues')
-    // .whereNot({'issues.deleted': true})    
+  let rows = await knexConn.table('issues')    
+    .whereNot({
+      status: 3
+    })
     .select(['issues.*', 'customers.name as customer'])
     .leftJoin('customers', 'customers.id', 'issues.customer_id');
 
