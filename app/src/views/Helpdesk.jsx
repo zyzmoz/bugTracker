@@ -32,6 +32,10 @@ const Helpdesk = (props) => {
     })();
   }, []);
 
+  const handleSaveIssue = async(issue) => {
+    console.log(issue)
+  }
+
   return (
     <div>
       <h5>Suporte</h5>
@@ -47,6 +51,7 @@ const Helpdesk = (props) => {
             users={props.users} 
             projects={props.projects} 
             customers={props.customers}
+            saveIssue={handleSaveIssue}
             />
         )}
         color="success"

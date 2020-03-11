@@ -30,7 +30,7 @@ const IssueSchema = Yup.object().shape({
 });
 
 const IssueForm = (props) => {
-  const { issue, closeModal, readOnly, users, projects, customers } = props;
+  const { issue, closeModal, readOnly, users, projects, customers, saveIssue } = props;
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState(issue ? issue.user_id : users[0].id);
   const [project, setProject] = useState(issue ? issue.project_id : projects[0].id);
@@ -41,7 +41,8 @@ const IssueForm = (props) => {
     console.log(issue)
     setErrors({});
     IssueSchema.validate(issue)
-      .then(() => {
+      .then(async() => {
+        await saveIssue(issue);
         closeModal();
       })
       .catch(error => {
