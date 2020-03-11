@@ -98,7 +98,7 @@ const Customers = (props) => {
                     onClick={() => props.openModal(<CustomerForm closeModal={closeModal} saveCustomer={handleSaveCustomer} readOnly={true} customer={customer} />)}
                     style={styles.button} color="secondary">
                     <Octicons icon={Search} />
-                  </Button>
+                  </Button>                  
                   <Button
                     onClick={() => props.openModal(<CustomerForm closeModal={closeModal} saveCustomer={handleSaveCustomer} customer={customer} />)}
                     style={styles.button}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Octicons, { Trashcan, Pencil, Search } from '@primer/octicons-react';
+import Octicons, { Trashcan, Pencil, Search, Plus } from '@primer/octicons-react';
 import { connect } from 'react-redux';
 import SearchBar from '../components/SearchBar/SearchBar';
 import { Button } from 'react-foundation';
@@ -135,6 +135,14 @@ const Helpdesk = (props) => {
                   <Octicons icon={Search} />
                 </Button>
                 <Button
+                  style={styles.button}
+                  // onClick={() => openModal(<CustomerForm closeModal={closeModal} saveCustomer={handleSaveCustomer} />)}
+                  color="warning"
+                >
+                  <Octicons icon={Plus} />
+
+                </Button>
+                <Button
                   onClick={() => props.openModal(<IssueForm
                     closeModal={props.closeModal}
                     users={props.users}
@@ -163,15 +171,16 @@ const Helpdesk = (props) => {
 
 const styles = {
   actions: {
-    display: 'flex',
+    display: 'flex',    
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     margin: '0',
     padding: 0
   },
   button: {
     marginBottom: '3px',
-    marginTop: '3px'
+    marginTop: '3px',
+    marginRight: '3px'
   }
 }
 
