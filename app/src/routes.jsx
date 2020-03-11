@@ -1,5 +1,5 @@
 import Dashboard from './views/Dashboard';
-import Helpdesk from './views/Helpdesk';
+import Issue from './views/Issue';
 import  Development from './views/Development';
 import Users from './views/Users';
 import Customers from './views/Customers';
@@ -15,7 +15,7 @@ const routes = [
   },
   {
     title: 'Suporte',
-    component: Helpdesk,
+    component: Issue,
     path: '/helpdesk',
     subRoutes: []
   },

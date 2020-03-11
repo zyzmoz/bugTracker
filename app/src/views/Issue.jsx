@@ -45,7 +45,7 @@ const actions = {
   queryIssue
 }
 
-const Helpdesk = (props) => {
+const Issue = (props) => {
   const [searchText, setSearchText] = useState('');
   const { issues } = props;
 
@@ -184,4 +184,4 @@ const styles = {
   }
 }
 
-export default connect(mapState, actions)(Helpdesk);
+export default connect(mapState, actions)(Issue);
